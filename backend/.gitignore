@@ -1,0 +1,28 @@
+# Root /.gitignore
+
+# Node modules for the project root and subdirectories
+node_modules
+*/node_modules
+
+# Environment variables
+.env
+*/.env
+
+# Backend files
+backend/package-lock.json
+
+# Frontend build artifacts
+frontend/build
+frontend/package-lock.json
+
+# Logs
+npm-debug.log
+yarn-error.log
+
+# Docker/OS files
+.DS_Store
+.vscode/
+.gitkeep
+
+# Docker volumes
+.volumes/

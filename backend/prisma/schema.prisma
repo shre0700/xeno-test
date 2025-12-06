@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL") // <--- ADD THIS LINE
+}
+
+// ... rest of your models (Tenant, Product, etc.) stay the same
+model Tenant {
+  id          Int       @id @default(autoincrement())
+  shop        String    @unique
+  accessToken String
+  products    Product[]
+  customers   Customer[]
+  orders      Order[]
+  createdAt   DateTime  @default(now())
+}
+
+model Product {
+  id        Int     @id @default(autoincrement())
+  shopifyId String  @unique
+  tenantId  Int
+  title     String
+  price     Float?
+  rawJson   Json
+  tenant    Tenant  @relation(fields: [tenantId], references: [id])
+}
+
+model Customer {
+  id        Int     @id @default(autoincrement())
+  shopifyId String  @unique
+  tenantId  Int
+  name      String?
+  email     String?
+  rawJson   Json
+  tenant    Tenant  @relation(fields: [tenantId], references: [id])
+}
+
+model Order {
+  id         Int      @id @default(autoincrement())
+  shopifyId  String   @unique
+  tenantId   Int
+  totalPrice Float
+  createdAt  DateTime
+  rawJson    Json
+  tenant     Tenant   @relation(fields: [tenantId], references: [id])
+}
